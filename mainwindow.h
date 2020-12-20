@@ -31,6 +31,11 @@ private slots:
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
 
+    void on_XChanged(int arg1);
+    void on_YChanged(int arg1);
+    void on_X1Changed(int arg1);
+    void on_Y1Changed(int arg1);
+
 private:
     // ui to wskaźnik za pomocą którego mamy dostęp
     // do elementów interfejsu użytkownika

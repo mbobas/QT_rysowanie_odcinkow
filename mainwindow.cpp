@@ -91,17 +91,29 @@ void MainWindow::drawPixel(int x, int y, unsigned char red, unsigned char green,
 void MainWindow::draw_section(int x0, int y0, int x1, int y1, unsigned char red, unsigned char green, unsigned char blue)
 
 {
-    float a, b,y;
+
+    float a, b,y, check1;
     int x;
 
-    a=(y1-y0)/(x1-x0);
+    a=((float)y1-y0)/(x1-x0);
     b=y0-a*x0;
 
-    for (x=x0; x<=x1; x++) {
-      y=a*x+b;
-      drawPixel(x, y);
+    if (x1>x0){
+        for (x=x0; x<=x1; x++) {
+          y=a*x+b;
+          drawPixel(x, y);
+        }
+    }else if(x0>x1) {
+        for (x=x0; x>=x1; x--) {
+          y=a*x+b;
+          drawPixel(x, y);
+        }
     }
+
+
 }
+
+
 //*****************************************************************************************************
 
 // Metoda wywoływana po wciśnięciu przycisku myszy
@@ -112,7 +124,8 @@ void MainWindow::draw_section(int x0, int y0, int x1, int y1, unsigned char red,
 // wywoływana po każdym ruchu myszy
 void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 {
-
+    on_X1Changed(x1);
+    on_Y1Changed(y1);
     // Pobieramy współrzędne punktu puszczenia myszy
     x1 = event->x();
     y1 = event->y();
@@ -142,6 +155,8 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
     //int x,y;
+    on_XChanged(x0);
+    on_YChanged(y0);
 
     // Pobieramy współrzędne punktu kliknięcia
     x0 = event->x();
@@ -183,3 +198,23 @@ void MainWindow::on_cleanButton_clicked()
     // Po zmodyfikowaniu obiektu QImage odświeżamy okno aplikacji, aby zobaczyc zmiany
     update();
 }
+
+void MainWindow::on_XChanged(int x0)
+{
+   ui->labelX->setText(QString::number(x0));
+}
+
+void MainWindow::on_YChanged(int x0)
+{
+   ui->labelY->setText(QString::number(y0));
+}
+void MainWindow::on_X1Changed(int x0)
+{
+   ui->labelX_2->setText(QString::number(x1));
+}
+
+void MainWindow::on_Y1Changed(int x0)
+{
+   ui->labelY_2->setText(QString::number(y1));
+}
+
