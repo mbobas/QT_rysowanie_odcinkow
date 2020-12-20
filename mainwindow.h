@@ -41,6 +41,7 @@ private:
 
     void clean();
     void drawPixel(int x, int y, unsigned char red = 255, unsigned char green = 255, unsigned char blue = 255);
+    void draw_section(int x0, int y0, int x1, int y1, unsigned char red = 255, unsigned char green = 255, unsigned char blue = 255);
 
 };
 
