@@ -71,6 +71,83 @@ void MainWindow::clean()
 }
 //*****************************************************************************************************
 
+
+
+//*****************************************************************************************************
+
+// Metoda wywoływana po wciśnięciu przycisku myszy
+// Inne metody związane z obsługą myszy to
+// void MainWindow::mouseReleaseEvent(QMouseEvent *event)
+// wywoływana po puszczeniu przycisku myszy i
+// void MainWindow::mouseMoveEvent(QMouseEvent *event)
+// wywoływana po każdym ruchu myszy
+void MainWindow::mouseReleaseEvent(QMouseEvent *event)
+{
+
+    // Pobieramy współrzędne punktu puszczenia myszy
+    x1 = event->x();
+    y1 = event->y();
+    // Współrzędne obliczane są względem głównego okna programu
+    // aby uzyskać współrzędne względem obszaru rysowania (ramki) musimy je przesunąć
+    // tak aby punkt (0,0) pokrywał się z lewym górnym naroznikiem obszaru rysowania
+    x1 = x1 - startX;
+    y1 = y1 - startY;
+
+    // Jeżeli wciśnięto lewy przycisk to zamolowujemy piksel na biało
+    if(event->button() == Qt::LeftButton)
+    {
+        drawPixel(x1,y1);
+    }
+    // a w przeciwnym wypadku na czerwono // zmienione
+    else
+    {
+        drawPixel(x1,y1);
+    }
+
+    if (option == 1 ) {
+      draw_section(x0,y0,x1,y1);
+    }
+    if (option == 2 ) {
+      draw_circle(x0,y0,x1,y1);
+    }
+
+    on_X1Changed(x1);
+    on_Y1Changed(y1);
+
+    update();
+}
+//*****************************************************************************************************
+
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+    //int x,y;
+
+
+    // Pobieramy współrzędne punktu kliknięcia
+    x0 = event->x();
+    y0 = event->y();
+    // Współrzędne obliczane są względem głównego okna programu
+    // aby uzyskać współrzędne względem obszaru rysowania (ramki) musimy je przesunąć
+    // tak aby punkt (0,0) pokrywał się z lewym górnym naroznikiem obszaru rysowania
+    x0 = x0 - startX;
+    y0 = y0 - startY;
+
+    // Jeżeli wciśnięto lewy przycisk to zamolowujemy piksel na biało
+    if(event->button() == Qt::LeftButton)
+    {
+        drawPixel(x0,y0);
+    }
+    // a w przeciwnym wypadku na czerwono
+    else
+    {
+        drawPixel(x0,y0);
+    }
+
+    on_XChanged(x0);
+    on_YChanged(y0);
+    update();
+}
+
 // zamalowuje piksel (x,y) na kolor (red,green,blue), domyślnie na biało
 void MainWindow::drawPixel(int x, int y)
 {
@@ -143,87 +220,25 @@ void MainWindow::draw_circle(int x0, int y0, int x1, int y1)
 
    for(int x=0; x<=r*(qSqrt(2)/2); x++) {
        y=qSqrt(qPow(r,2)-qPow(x,2));
-       drawPixel(x,y);
+       int x2=y;
+       int y2=x;
+
+       drawPixel(x0+x,y0+y); //4:30-6:00
+       drawPixel(x0+x2,y0+y2); //3:00-4:30
+
+       drawPixel(x0-x,y0+y); //06:30-07:30
+       drawPixel(x0-x2,y0+y2); //07:00-09:00
+
+       drawPixel(x0-x,y0-y); //09:00-10:30
+       drawPixel(x0-x2,y0-y2); //10:30-12:00
+
+       drawPixel(x0+x,y0-y); //12:00-1:30
+       drawPixel(x0+x2,y0-y2); //1:30-3:00
+
    }
 
 
 }
-
-
-//*****************************************************************************************************
-
-// Metoda wywoływana po wciśnięciu przycisku myszy
-// Inne metody związane z obsługą myszy to
-// void MainWindow::mouseReleaseEvent(QMouseEvent *event)
-// wywoływana po puszczeniu przycisku myszy i
-// void MainWindow::mouseMoveEvent(QMouseEvent *event)
-// wywoływana po każdym ruchu myszy
-void MainWindow::mouseReleaseEvent(QMouseEvent *event)
-{
-    on_X1Changed(x1);
-    on_Y1Changed(y1);
-    // Pobieramy współrzędne punktu puszczenia myszy
-    x1 = event->x();
-    y1 = event->y();
-    // Współrzędne obliczane są względem głównego okna programu
-    // aby uzyskać współrzędne względem obszaru rysowania (ramki) musimy je przesunąć
-    // tak aby punkt (0,0) pokrywał się z lewym górnym naroznikiem obszaru rysowania
-    x1 = x1 - startX;
-    y1 = y1 - startY;
-
-    // Jeżeli wciśnięto lewy przycisk to zamolowujemy piksel na biało
-    if(event->button() == Qt::LeftButton)
-    {
-        drawPixel(x1,y1);
-    }
-    // a w przeciwnym wypadku na czerwono // zmienione
-    else
-    {
-        drawPixel(x1,y1);
-    }
-
-    if (option == 1 ) {
-      draw_section(x0,y0,x1,y1);
-    }
-    if (option == 2 ) {
-      draw_circle(x0,y0,x1,y1);
-    }
-
-
-
-    update();
-}
-//*****************************************************************************************************
-
-void MainWindow::mousePressEvent(QMouseEvent *event)
-{
-    //int x,y;
-    on_XChanged(x0);
-    on_YChanged(y0);
-
-    // Pobieramy współrzędne punktu kliknięcia
-    x0 = event->x();
-    y0 = event->y();
-    // Współrzędne obliczane są względem głównego okna programu
-    // aby uzyskać współrzędne względem obszaru rysowania (ramki) musimy je przesunąć
-    // tak aby punkt (0,0) pokrywał się z lewym górnym naroznikiem obszaru rysowania
-    x0 = x0 - startX;
-    y0 = y0 - startY;
-
-    // Jeżeli wciśnięto lewy przycisk to zamolowujemy piksel na biało
-    if(event->button() == Qt::LeftButton)
-    {
-        drawPixel(x0,y0);
-    }
-    // a w przeciwnym wypadku na czerwono
-    else
-    {
-        drawPixel(x0,y0);
-    }
-
-    update();
-}
-
 // Metoda wywoływana po nacisnięciu przycisku exitButton (,,Wyjście'')
 void MainWindow::on_exitButton_clicked()
 {
