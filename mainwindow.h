@@ -5,6 +5,8 @@
 #include <QImage>
 #include <QPainter>
 #include <QMouseEvent>
+#include <QtMath>
+#include<QDebug>
 
 namespace Ui {
 class MainWindow;
@@ -35,6 +37,21 @@ private slots:
     void on_YChanged(int arg1);
     void on_X1Changed(int arg1);
     void on_Y1Changed(int arg1);
+    void on_labelRChanged(int arg1);
+
+    bool check(int x0, int y0, int x1, int y1);
+
+    void on_radioButton_clicked();
+
+    void on_radioButton_2_clicked();
+
+    void on_radioButton_3_clicked();
+
+    void on_radioButton_4_clicked();
+
+    void on_radioButton_6_clicked();
+
+    void on_radioButton_5_clicked();
 
 private:
     // ui to wskaźnik za pomocą którego mamy dostęp
@@ -42,11 +59,16 @@ private:
     Ui::MainWindow *ui;
 
     QImage *img; 
-    int width, height, startX, startY,x0, y0, x1, y1;
+    int width, height, startX, startY,x0, y0, x1, y1, option;
+    double r =0;
+    int red=255;
+    int green=255;
+    int blue=255;
 
     void clean();
-    void drawPixel(int x, int y, unsigned char red = 255, unsigned char green = 255, unsigned char blue = 255);
-    void draw_section(int x0, int y0, int x1, int y1, unsigned char red = 255, unsigned char green = 255, unsigned char blue = 255);
+    void drawPixel(int x, int y);
+    void draw_section(int x0, int y0, int x1, int y1);
+    void draw_circle(int x0, int y0, int x1, int y1);
 
 };
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.13.2, 2020-12-20T12:30:14. -->
+<!-- Written by QtCreator 4.13.2, 2021-01-10T21:27:02. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -325,8 +325,9 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/micha/Dysk Google/UMK 2019-2022/ROK2/SEMESTR III/PGK/lab2 generowanie i wyswietlanie obrazow w Qt/rysowanie odcinkow/LGiMszablon/LGiMszablon.pro</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/micha/Dysk Google/UMK 2019-2022/ROK2/SEMESTR III/PGK/lab2 generowanie i wyswietlanie obrazow w Qt/rysowanie odcinkow/LGiMszablon/LGiMszablon.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">LGiMszablon2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/micha/Dysk Google/UMK 2019-2022/ROK2/SEMESTR III/PGK/lab3 okrag elipsa/RYSUJ ODCINEK/LGiMszablon/LGiMszablon.pro</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/micha/Dysk Google/UMK 2019-2022/ROK2/SEMESTR III/PGK/lab3 okrag elipsa/RYSUJ ODCINEK/LGiMszablon/LGiMszablon.pro</value>
     <value type="QString" key="RunConfiguration.Arguments"></value>
     <value type="bool" key="RunConfiguration.Arguments.multi">false</value>
     <value type="QString" key="RunConfiguration.OverrideDebuggerStartup"></value>

@@ -72,7 +72,7 @@ void MainWindow::clean()
 //*****************************************************************************************************
 
 // zamalowuje piksel (x,y) na kolor (red,green,blue), domyślnie na biało
-void MainWindow::drawPixel(int x, int y, unsigned char red, unsigned char green, unsigned char blue)
+void MainWindow::drawPixel(int x, int y)
 {
     unsigned char *wsk;
 
@@ -86,29 +86,65 @@ void MainWindow::drawPixel(int x, int y, unsigned char red, unsigned char green,
     }
 
 }
+//sprawdzamy kierunek lini z lewaej do prawe lub prawej do lewej,
+bool MainWindow::check(int x0, int y0, int x1, int y1) {
+    if (x1>x0 && y1>y0) {
+        if (x1-x0>y1-y0) {
+            return true;
+        }else {
+            return false;
+        }
+    }
 
+}
 // zamalowuje odcinek (x0,y0 -> x1,y1) na kolor (red,green,blue), domyślnie na biało
-void MainWindow::draw_section(int x0, int y0, int x1, int y1, unsigned char red, unsigned char green, unsigned char blue)
+void MainWindow::draw_section(int x0, int y0, int x1, int y1)
 
 {
 
-    float a, b,y, check1;
+    float a, b,y;
     int x;
+    bool verify = check(x0,y0,x1,y1);
 
     a=((float)y1-y0)/(x1-x0);
     b=y0-a*x0;
 
-    if (x1>x0){
-        for (x=x0; x<=x1; x++) {
-          y=a*x+b;
-          drawPixel(x, y);
-        }
-    }else if(x0>x1) {
-        for (x=x0; x>=x1; x--) {
-          y=a*x+b;
-          drawPixel(x, y);
+
+    if (verify) {
+        if (x1>x0){
+            for (x=x0; x<=x1; x++) {
+              y=a*x+b;
+              drawPixel(x, y);
+            }
+        }else if(x0>x1) {
+            for (x=x0; x>=x1; x--) {
+              y=a*x+b;
+              drawPixel(x, y);
+            }
         }
     }
+
+
+
+}
+
+
+// rysuje okrąg (x0,y0 -> x1,y1)
+void MainWindow::draw_circle(int x0, int y0, int x1, int y1)
+
+{
+    //odleglosc (x0,y0) od (x1,y1)
+    //R = pow ( (x1-x0)^2 + (y1-y0)^2 )
+    r=0;
+    r = qSqrt( qPow((x1-x0),2) + qPow((y1-y0),2) );
+   QTextStream(stdout) << r << " \n";
+   on_labelRChanged(r);
+   int y;
+
+   for(int x=0; x<=r*(qSqrt(2)/2); x++) {
+       y=qSqrt(qPow(r,2)-qPow(x,2));
+       drawPixel(x,y);
+   }
 
 
 }
@@ -140,13 +176,20 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
     {
         drawPixel(x1,y1);
     }
-    // a w przeciwnym wypadku na czerwono
+    // a w przeciwnym wypadku na czerwono // zmienione
     else
     {
-        drawPixel(x1,y1,255,0,0);
+        drawPixel(x1,y1);
     }
 
-    draw_section(x0,y0,x1,y1,255,0,0);
+    if (option == 1 ) {
+      draw_section(x0,y0,x1,y1);
+    }
+    if (option == 2 ) {
+      draw_circle(x0,y0,x1,y1);
+    }
+
+
 
     update();
 }
@@ -175,7 +218,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     // a w przeciwnym wypadku na czerwono
     else
     {
-        drawPixel(x0,y0,255,0,0);
+        drawPixel(x0,y0);
     }
 
     update();
@@ -216,5 +259,46 @@ void MainWindow::on_X1Changed(int x0)
 void MainWindow::on_Y1Changed(int x0)
 {
    ui->labelY_2->setText(QString::number(y1));
+}
+void MainWindow::on_labelRChanged(int arg1)
+{
+    ui->labelR->setText(QString::number(r));
+}
+
+
+void MainWindow::on_radioButton_clicked()
+{
+    option=1;
+}
+
+void MainWindow::on_radioButton_2_clicked()
+{
+    option=2;
+}
+
+void MainWindow::on_radioButton_3_clicked()
+{
+    option=3;
+}
+
+void MainWindow::on_radioButton_4_clicked()
+{
+    red=255;
+    green=0;
+    blue=0;
+}
+
+void MainWindow::on_radioButton_6_clicked()
+{
+    red=0;
+    green=255;
+    blue=0;
+}
+
+void MainWindow::on_radioButton_5_clicked()
+{
+    red=255;
+    green=255;
+    blue=255;
 }
 
