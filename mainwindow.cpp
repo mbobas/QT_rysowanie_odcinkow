@@ -204,24 +204,9 @@ void MainWindow::draw_section(int x0, int y0, int x1, int y1)
 
 
 }
-
-
-// rysuje okrąg (x0,y0 -> x1,y1)
-void MainWindow::draw_circle(int x0, int y0, int x1, int y1)
-
+//rysuj 8 częsci koła koła
+void MainWindow::draw8pxl(int x, int y, int x0, int y0,int x2, int y2)
 {
-    //odleglosc (x0,y0) od (x1,y1)
-    //R = pow ( (x1-x0)^2 + (y1-y0)^2 )
-    r=0;
-    r = qSqrt( qPow((x1-x0),2) + qPow((y1-y0),2) );
-   QTextStream(stdout) << r << " \n";
-   on_labelRChanged(r);
-   int y;
-
-   for(int x=0; x<=r*(qSqrt(2)/2); x++) {
-       y=qSqrt(qPow(r,2)-qPow(x,2));
-       int x2=y;
-       int y2=x;
 
        drawPixel(x0+x,y0+y); //4:30-6:00
        drawPixel(x0+x2,y0+y2); //3:00-4:30
@@ -235,10 +220,41 @@ void MainWindow::draw_circle(int x0, int y0, int x1, int y1)
        drawPixel(x0+x,y0-y); //12:00-1:30
        drawPixel(x0+x2,y0-y2); //1:30-3:00
 
+}
+
+// rysuje okrąg (x0,y0 -> x1,y1)
+void MainWindow::draw_circle(int x0, int y0, int x1, int y1)
+
+{
+    //odleglosc (x0,y0) od (x1,y1)
+    //R = pow ( (x1-x0)^2 + (y1-y0)^2 )
+    r=0;
+    //oblicz promien koła
+    r = qSqrt( qPow((x1-x0),2) + qPow((y1-y0),2) );
+   QTextStream(stdout) << r << " \n";
+   on_labelRChanged(r);
+   int y;
+
+   //os xy - przejdz po osi x od 0 do x=R*sqrt(2)/2
+   for(int x=0; x<=r*(qSqrt(2)/2); x++) {
+       // ze wzoru na rysowanie okregu o środku (0,0) obliczamy y
+       //x^2 + y^2 = R^2 => y = sqrt(R^2 - x^2
+
+       y=qSqrt(qPow(r,2)-qPow(x,2));
+
+       //wyznaczenie punktów shymetrycznych do x,y
+       int x2=y;
+       int y2=x;
+
+       //rysowanie 8 punktow symetrycznych we wszystkich osiach//
+       draw8pxl(x,y,x0,y0,x2,y2);
+
    }
 
-
 }
+
+
+
 // Metoda wywoływana po nacisnięciu przycisku exitButton (,,Wyjście'')
 void MainWindow::on_exitButton_clicked()
 {

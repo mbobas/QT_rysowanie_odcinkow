@@ -38,6 +38,7 @@ private slots:
     void on_X1Changed(int arg1);
     void on_Y1Changed(int arg1);
     void on_labelRChanged(int arg1);
+    void draw8pxl(int x, int y, int x0, int y0,int x2, int y2);
 
     bool check(int x0, int y0, int x1, int y1);
 
