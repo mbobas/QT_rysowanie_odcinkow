@@ -39,6 +39,7 @@ private slots:
     void on_Y1Changed(int arg1);
     void on_labelRChanged(int arg1);
     void draw8pxl(int x, int y, int x0, int y0,int x2, int y2);
+    void draw4pxl(int x, int y, int x0, int y0);
 
     bool check(int x0, int y0, int x1, int y1);
 
@@ -53,6 +54,8 @@ private slots:
     void on_radioButton_6_clicked();
 
     void on_radioButton_5_clicked();
+
+    void on_radioButton_7_clicked();
 
 private:
     // ui to wskaźnik za pomocą którego mamy dostęp
@@ -70,7 +73,8 @@ private:
     void drawPixel(int x, int y);
     void draw_section(int x0, int y0, int x1, int y1);
     void draw_circle(int x0, int y0, int x1, int y1);
-
+    void draw_elipse(int x0, int y0, int x1, int y1);
+    void draw_polygon(int x0, int y0, int x1, int y1);
 };
 
 #endif // MAINWINDOW_H

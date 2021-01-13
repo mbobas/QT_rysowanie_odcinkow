@@ -110,6 +110,12 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
     if (option == 2 ) {
       draw_circle(x0,y0,x1,y1);
     }
+    if (option == 3 ) {
+      draw_elipse(x0,y0,x1,y1);
+    }
+    if (option ==4 ) {
+       draw_polygon(x0,y0,x1,y1);
+    }
 
     on_X1Changed(x1);
     on_Y1Changed(y1);
@@ -180,30 +186,41 @@ void MainWindow::draw_section(int x0, int y0, int x1, int y1)
 {
 
     float a, b,y;
-    int x;
+    float x;
+    //sprawdzamy kierunek lini z lewaej do prawe lub prawej do lewej,
     bool verify = check(x0,y0,x1,y1);
 
+    //rownanie prostej
     a=((float)y1-y0)/(x1-x0);
     b=y0-a*x0;
 
-
     if (verify) {
+        //rysuj od lewej do prawej
         if (x1>x0){
             for (x=x0; x<=x1; x++) {
               y=a*x+b;
               drawPixel(x, y);
             }
+        //rysuj od prawej do lewej
         }else if(x0>x1) {
             for (x=x0; x>=x1; x--) {
               y=a*x+b;
               drawPixel(x, y);
             }
+           //linia prosta z lewej do prawej gęsto - do poprawy.
+            //heh - rysuj prostokat wyszlo :)
+        }if(x1-x0 >=0 && x1-x0 <=15 ){
+            int diff=x1-x0;
+            for(y=y0;y>=y1;y--){
+                for(x=x0;x<=x1;x++){
+                    drawPixel(x,y);
+                }
+            }
         }
     }
 
-
-
 }
+
 //rysuj 8 częsci koła koła
 void MainWindow::draw8pxl(int x, int y, int x0, int y0,int x2, int y2)
 {
@@ -222,9 +239,23 @@ void MainWindow::draw8pxl(int x, int y, int x0, int y0,int x2, int y2)
 
 }
 
+//rysuj 8 częsci elipsy
+void MainWindow::draw4pxl(int x, int y, int x0, int y0)
+{
+
+       drawPixel(x0+x,y0+y);
+
+       drawPixel(x0-x,y0+y);
+
+       drawPixel(x0-x,y0-y);
+
+       drawPixel(x0+x,y0-y);
+
+
+}
+
 // rysuje okrąg (x0,y0 -> x1,y1)
 void MainWindow::draw_circle(int x0, int y0, int x1, int y1)
-
 {
     //odleglosc (x0,y0) od (x1,y1)
     //R = pow ( (x1-x0)^2 + (y1-y0)^2 )
@@ -253,7 +284,48 @@ void MainWindow::draw_circle(int x0, int y0, int x1, int y1)
 
 }
 
+// rysuje elipse (x0,y0 -> x1,y1)
+void MainWindow::draw_elipse(int x0, int y0, int x1, int y1)
 
+{
+    int a,b,x,y;
+    double t;
+
+    a=qFabs(x1-x0);
+    b=qFabs(y1-y0);
+
+    for(t=0; t<=M_PI_2; t+=0.001) {
+        x=a*qCos(t);
+        y=b*qSin(t);
+        QTextStream(stdout) << "t: " << t << " \n";
+        QTextStream(stdout) << "a: " << a << " b: " << b << " \n";
+        QTextStream(stdout) << "x: " << x << " y: " << y << " \n";
+
+        draw4pxl(x,y,x0,y0);
+    }
+
+}
+
+void MainWindow::draw_polygon(int x0, int y0, int x1, int y1)
+
+{
+    int a,b,x,y;
+    double t;
+
+    a=qFabs(x1-x0);
+    b=qFabs(y1-y0);
+
+    for(t=0; t<=4; t+=2) {
+        x=a*qCos(t);
+        y=b*qSin(t);
+        QTextStream(stdout) << "t: " << t << " \n";
+        QTextStream(stdout) << "a: " << a << " b: " << b << " \n";
+        QTextStream(stdout) << "x: " << x << " y: " << y << " \n";
+
+        draw4pxl(x,y,x0,y0);
+    }
+
+}
 
 // Metoda wywoływana po nacisnięciu przycisku exitButton (,,Wyjście'')
 void MainWindow::on_exitButton_clicked()
@@ -333,3 +405,8 @@ void MainWindow::on_radioButton_5_clicked()
     blue=255;
 }
 
+
+void MainWindow::on_radioButton_7_clicked()
+{
+    option=4;
+}
