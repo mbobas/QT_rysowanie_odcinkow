@@ -127,6 +127,7 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 //*****************************************************************************************************
 
 
+
 void MainWindow::mouseMoveEvent( QMouseEvent * event ) {
 
     // Pobieramy współrzędne punktu kliknięcia
@@ -155,6 +156,7 @@ void MainWindow::mouseMoveEvent( QMouseEvent * event ) {
 
 
 }
+
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {

@@ -32,6 +32,7 @@ private slots:
     void paintEvent(QPaintEvent*);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent( QMouseEvent * event );
 
     void on_XChanged(int arg1);
     void on_YChanged(int arg1);
