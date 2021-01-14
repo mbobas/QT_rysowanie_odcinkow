@@ -127,8 +127,11 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 //*****************************************************************************************************
 
 
+
 void MainWindow::mouseMoveEvent( QMouseEvent * event ) {
 
+
+    if (option == 5){
     // Pobieramy współrzędne punktu kliknięcia
     x0 = event->x();
     y0 = event->y();
@@ -153,12 +156,40 @@ void MainWindow::mouseMoveEvent( QMouseEvent * event ) {
     on_YChanged(y0);
     update();
 
-
+    }
 }
+
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
-    mouseMoveEvent(event);
+    if (option == 5){
+        //mouseMoveEvent(event);   // właćz to a zadziałą tryb ołówek// wyciągnąć to poza tą fukcję
+    }else {
+        // Pobieramy współrzędne punktu kliknięcia
+        x0 = event->x();
+        y0 = event->y();
+        // Współrzędne obliczane są względem głównego okna programu
+        // aby uzyskać współrzędne względem obszaru rysowania (ramki) musimy je przesunąć
+        // tak aby punkt (0,0) pokrywał się z lewym górnym naroznikiem obszaru rysowania
+        x0 = x0 - startX;
+        y0 = y0 - startY;
+
+        // Jeżeli wciśnięto lewy przycisk to zamalowujemy piksel na biało
+        if(event->button() == Qt::LeftButton)
+        {
+            drawPixel(x0,y0);
+        }
+        // a w przeciwnym wypadku na czerwono
+        else
+        {
+            drawPixel(x0,y0);
+        }
+
+        on_XChanged(x0);
+        on_YChanged(y0);
+        update();
+    }
+
 
 
 }
@@ -328,6 +359,39 @@ void MainWindow::draw_polygon(int x0, int y0, int x1, int y1)
 
     firstx=a*qCos(0);
     firsty=b*qSin(0);
+
+
+    // zapisuje punkty wielokata do tablicy
+    for(t=0; t<=11; t+=1) {
+        x=a*qCos(t);
+        y=b*qSin(t);
+
+        x2=a*qCos(t+1);
+        y2=b*qSin(t+1);
+        drawPixel(x0+x,y0+y);
+        drawPixel(x0+x2,y0+y2);
+        draw_section(x0+x,y0+y,x0+x2,y0+y2);
+
+
+    }
+
+    draw_section(x0+firstx,y0+firsty,x0+x2,y0+y2);
+
+}
+
+
+//rysujemy wielokat_Pv2
+void MainWindow::draw_polygon_v2(int x0, int y0, int x1, int y1)
+
+{
+    int a,b,x,y,x2,y2,firstx,firsty;
+    double t;
+
+    a=qFabs(x1-x0);
+    b=qFabs(y1-y0);
+
+    firstx=a*qCos(0);
+    firsty=b*qSin(0);
     int tab[100];
 
     // zapisuje punkty wielokata do tablicy
@@ -438,4 +502,9 @@ void MainWindow::on_radioButton_5_clicked()
 void MainWindow::on_radioButton_7_clicked()
 {
     option=4;
+}
+
+void MainWindow::on_radioButton_8_clicked()
+{
+    option=5;
 }

@@ -58,6 +58,8 @@ private slots:
 
     void on_radioButton_7_clicked();
 
+    void on_radioButton_8_clicked();
+
 private:
     // ui to wskaźnik za pomocą którego mamy dostęp
     // do elementów interfejsu użytkownika
@@ -76,6 +78,7 @@ private:
     void draw_circle(int x0, int y0, int x1, int y1);
     void draw_elipse(int x0, int y0, int x1, int y1);
     void draw_polygon(int x0, int y0, int x1, int y1);
+    void draw_polygon_v2(int x0, int y0, int x1, int y1);
 };
 
 #endif // MAINWINDOW_H
