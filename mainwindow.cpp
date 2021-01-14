@@ -98,24 +98,26 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
     {
         drawPixel(x1,y1);
     }
-    // a w przeciwnym wypadku na czerwono // zmienione
-    else
+
+    switch(option)
     {
-        drawPixel(x1,y1);
+    case 1:
+        draw_section(x0,y0,x1,y1);
+        break;
+
+    case 2:
+        draw_circle(x0,y0,x1,y1);
+        break;
+    case 3:
+        draw_elipse(x0,y0,x1,y1);
+        break;
+    case 4:
+        draw_polygon(x0,y0,x1,y1);
+        break;
+    default:
+       break;
     }
 
-    if (option == 1 ) {
-      draw_section(x0,y0,x1,y1);
-    }
-    if (option == 2 ) {
-      draw_circle(x0,y0,x1,y1);
-    }
-    if (option == 3 ) {
-      draw_elipse(x0,y0,x1,y1);
-    }
-    if (option ==4 ) {
-       draw_polygon(x0,y0,x1,y1);
-    }
 
     on_X1Changed(x1);
     on_Y1Changed(y1);
@@ -209,14 +211,15 @@ void MainWindow::draw_section(int x0, int y0, int x1, int y1)
             }
            //linia prosta z lewej do prawej gęsto - do poprawy.
             //heh - rysuj prostokat wyszlo :)
-        }if(x1-x0 >=0 && x1-x0 <=15 ){
-            int diff=x1-x0;
-            for(y=y0;y>=y1;y--){
-                for(x=x0;x<=x1;x++){
-                    drawPixel(x,y);
-                }
-            }
         }
+//        if(x1-x0 >=0 && x1-x0 <=15 ){
+//                    int diff=x1-x0;
+//                    for(y=y0;y>=y1;y--){
+//                        for(x=x0;x<=x1;x++){
+//                            drawPixel(x,y);
+//                        }
+//                    }
+//                }
     }
 
 }
@@ -306,24 +309,35 @@ void MainWindow::draw_elipse(int x0, int y0, int x1, int y1)
 
 }
 
+//rysujemy wielokat
 void MainWindow::draw_polygon(int x0, int y0, int x1, int y1)
 
 {
-    int a,b,x,y;
+    int a,b,x,y,x2,y2,firstx,firsty;
     double t;
 
     a=qFabs(x1-x0);
     b=qFabs(y1-y0);
 
-    for(t=0; t<=4; t+=2) {
+    firstx=a*qCos(0);
+    firsty=b*qSin(0);
+
+    for(t=0; t<=4; t+=1) {
         x=a*qCos(t);
         y=b*qSin(t);
-        QTextStream(stdout) << "t: " << t << " \n";
-        QTextStream(stdout) << "a: " << a << " b: " << b << " \n";
-        QTextStream(stdout) << "x: " << x << " y: " << y << " \n";
+        drawPixel(x0+x,y0+y);
+        x2=a*qCos(t+1);
+        y2=b*qSin(t+1);
+        drawPixel(x0+x,y0+y);
+        draw_section(x0+x,y0+y,x0+x2,y0+y2);
+       // drawPixel(x0-x,y0+y);
 
-        draw4pxl(x,y,x0,y0);
+        //drawPixel(x0-x,y0-y);
+
+        //drawPixel(x0+x,y0-y);
     }
+
+    draw_section(x0+firstx,y0+firsty,x0+x2,y0+y2);
 
 }
 
